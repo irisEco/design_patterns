@@ -1,18 +1,18 @@
-package main
+package chain_of_responsibility
 
 import "fmt"
 
 //用来解决问题的具体类（仅解决指定编号的问题）
 type SpecialSupport struct {
-	name   string
-	number int
+	Name   string
+	Number int
 	Support
 }
 
 func (s *SpecialSupport) HandleTrouble(t *Trouble) bool {
-	fmt.Println("handler get number:", t.getNumber())
-	fmt.Println(s.number)
-	if s.number == t.getNumber() {
+	fmt.Println("handler get Number:", t.GetNumber())
+	fmt.Println(s.Number)
+	if s.Number == t.GetNumber() {
 		s.Support.HandleTrouble(t)
 		fmt.Println("special_support handler is succes")
 		return true

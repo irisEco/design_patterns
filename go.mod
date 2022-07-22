@@ -1,3 +1,3 @@
-module chain_of_Responsibility
+module design_patterns
 
 go 1.17

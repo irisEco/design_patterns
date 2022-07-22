@@ -1,20 +1,21 @@
-package main
+package chain_of_responsibility
 
 import "fmt"
 
 //用来解决问题的具体类（仅解决编号小于指定编号的问题）
 type LimitSipport struct {
-	name  string
-	limit int
+	Name  string
+	Limit int
 	Support
 }
 
 func (r *LimitSipport) HandleTrouble(t *Trouble) bool {
-	if t.getNumber() < r.limit {
+	if t.GetNumber() < r.Limit {
 		fmt.Println("LimitSipport handler is succes")
 		return true
 	} else {
 		fmt.Println("LimitSipport handler is fail")
+		r.Support.HandleTrouble(t)
 		return false
 	}
 }
