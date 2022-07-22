@@ -1,15 +1,23 @@
 package chain_of_responsibility
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func Test_HandleTrouble_In_Chain(t *testing.T) {
-	oba := &SpecialSupport{name: "A", number: 123}
-	obb := &LimitSipport{name: "B", limit: 124}
-	oba.SetNext(obb)
+	//这里没有实际的顺序关系，在实际应用中应该有顺序关系
+	spe := &SpecialSupport{Name: "A", Number: 1}
+	lim := &LimitSupport{Name: "B", Limit: 124}
+	odd := &OddSupport{Name: "B"}
+	//设置下一个责任节点
+	spe.SetNext(lim)
+	//设置lim下一个责任节点
+	lim.SetNext(odd)
 
-	event := &Trouble{number: 1}
-	oba.HandleTrouble(event)
-
-	event = &Trouble{number: 2}
-	oba.HandleTrouble(event)
+	for i := 0; i < 100; i += 33 {
+		event := &Trouble{Number: i}
+		fmt.Println(event.ToString())
+		spe.HandleTrouble(event)
+	}
 }

@@ -1,25 +1,45 @@
 package chain_of_responsibility
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 //用来解决问题的具体类（仅解决编号小于指定编号的问题）
-type LimitSipport struct {
+type LimitSupport struct {
 	Name  string
 	Limit int
-	Support
+	Next
 }
 
-func (r *LimitSipport) HandleTrouble(t *Trouble) bool {
-	if t.GetNumber() < r.Limit {
-		fmt.Println("LimitSipport handler is succes")
+func (l *LimitSupport) Resolve(t *Trouble) bool {
+	if t.GetNumber() < l.Limit {
+		//fmt.Println("LimitSupport handler is success")
 		return true
 	} else {
-		fmt.Println("LimitSipport handler is fail")
-		r.Support.HandleTrouble(t)
+		//fmt.Println("LimitSupport handler is fail")
 		return false
 	}
 }
 
-func (s *LimitSipport) SetNext(next Support) {
-	s.Support = next
+func (l *LimitSupport) SetNext(next Next) {
+	l.Next = next
+}
+
+func (l *LimitSupport) Done(t *Trouble) {
+	fmt.Sprint("Success: " + strconv.Itoa(t.Number) + " is resolved by " + string(l.Name) + ".")
+}
+
+func (l *LimitSupport) Fail(t *Trouble) {
+	fmt.Sprint("Fail: " + strconv.Itoa(t.Number) + " cannot be resolved by " + string(l.Name))
+}
+
+func (s *LimitSupport) HandleTrouble(t *Trouble) {
+	if s.Resolve(t) {
+		s.Done(t)
+	} else if s.Next != nil {
+		s.Next.HandleTrouble(t)
+	} else {
+		s.Fail(t)
+	}
 }
