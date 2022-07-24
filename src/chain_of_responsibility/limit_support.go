@@ -27,11 +27,11 @@ func (l *LimitSupport) SetNext(next Next) {
 }
 
 func (l *LimitSupport) Done(t *Trouble) {
-	fmt.Sprint("Success: " + strconv.Itoa(t.Number) + " is resolved by " + string(l.Name) + ".")
+	fmt.Println("Success: " + strconv.Itoa(t.Number) + " is resolved by " + string(l.Name) + ".")
 }
 
 func (l *LimitSupport) Fail(t *Trouble) {
-	fmt.Sprint("Fail: " + strconv.Itoa(t.Number) + " cannot be resolved by " + string(l.Name))
+	fmt.Println("Fail: " + strconv.Itoa(t.Number) + " cannot be resolved by " + string(l.Name))
 }
 
 func (s *LimitSupport) HandleTrouble(t *Trouble) {

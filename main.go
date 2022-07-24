@@ -14,18 +14,16 @@ func main() {
 	lim := &chain.LimitSupport{Name: "LimitSupport", Limit: rand.Intn(180)}
 	odd := &chain.OddSupport{Name: "OddSupport"}
 	ons := &chain.NoSupport{Name: "NoSupport"}
-	println(lim.Limit)
-
 	//设置下一个责任节点
 	spe.SetNext(lim)
-	//设置lim下一个责任节点
 	lim.SetNext(odd)
 	odd.SetNext(ons)
-	odd.SetNext(ons)
+	//设置最后节点的下一个责任节点为空，即当前节点为最后节点
+	ons.SetNext(nil)
+
 	for i := rand.Intn(rand.Intn(150)); i <= 100; i += rand.Intn(10) {
 		event := &chain.Trouble{Number: i}
 		fmt.Println(event.ToString())
 		spe.HandleTrouble(event)
 	}
-
 }
